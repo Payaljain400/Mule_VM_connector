@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="project_1-test-suite.xml" />
+	<munit:test name="project_1-test-suite-post:\customer:Publish_Flow:project_1-configTest" doc:id="6c5c62d5-fe9d-4f6a-aee2-fdc64d30a6f8" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d8fc979d-17b0-4fd6-bec5-e756e10e8950" processor="vm:publish-consume">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="CustomerQueue" attributeName="queueName" />
+					<munit-tools:with-attribute whereValue="Publish consume" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="eecaa826-2c95-4e27-8aec-cc0ddd83a1b0" attributeName="doc:id" />
+					<munit-tools:with-attribute whereValue="VM_Config" attributeName="config-ref" />
+					<munit-tools:with-attribute whereValue="MINUTES" attributeName="timeoutUnit" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Event" doc:id="be8961eb-36c7-41bb-9b8b-b25fdcf19225" >
+				<munit:payload value='{
+	"ID": "12",
+	"firstName": "Payal",
+	"lastName": "Jain",
+	"address": "Koala Boulevard 314",
+	"city": "San Diego",
+	"country": "USA",
+	"email": "mike@hotmail.com",
+	"postalCode": "1345",
+	"stateOrProvince": "CA"
+}' mediaType="application/json" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to post:\customer:Publish_Flow:project_1-config" doc:id="94c36127-1475-42b2-b389-7a4717921e4b" name="post:\customer:Publish_Flow:project_1-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="dd8dcd2c-e521-4985-a25a-5119c31ec238" expression="#[payload]" is="#[MunitTools::notNullValue()]" message="payload is null"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="project_1-test-suite-SubscribeFlowTest" doc:id="6295f6d6-2641-4cb3-9ba5-a39bbfb23f71" description="Test">
+		<munit:behavior >
+			<munit:set-event doc:name="Set Event" doc:id="9bcb7690-0002-4bd9-8a00-4d626022c942" >
+				<munit:payload value='{
+	"ID": "12",
+	"firstName": "Payal",
+	"lastName": "Jain",
+	"address": "Koala Boulevard 314",
+	"city": "San Diego",
+	"country": "USA",
+	"email": "mike@hotmail.com",
+	"postalCode": "1345",
+	"stateOrProvince": "CA"
+}' mediaType="application/json" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to SubscribeFlow" doc:id="43f76d5f-f2a5-487f-85ca-b19e07fccd6a" name="SubscribeFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="80eaaedd-3644-4c74-85e4-9ce49f2ca2a6" is="#[MunitTools::notNullValue()]" expression="#[payload]" message="consume payload is null"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

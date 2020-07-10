@@ -1,0 +1,22 @@
+#%RAML 1.0
+title: Project_1
+
+description: This is the customer API to manage the customer data.
+
+/customer:
+  post:
+    body:
+      application/json:
+        example:
+          {
+            "ID" : "12",
+            "firstName":"Payal",
+            "lastName":"Jain",
+            "address": "Koala Boulevard 314",
+            "city": "San Diego",
+            "country": "USA",
+            "email": "mike@hotmail.com",
+            "name": "Michael",
+            "postalCode": "1345",
+            "stateOrProvince": "CA"
+          }

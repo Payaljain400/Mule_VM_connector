@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="customer_input" format="json">
+      <types:shape format="weave" example="examples/project_1_input"><![CDATA[%dw 2.0
+
+type customer_input = {|
+  ID: String, 
+  firstName: String, 
+  lastName: String, 
+  address: String, 
+  city: String, 
+  country: String, 
+  email: String, 
+  postalCode: String, 
+  stateOrProvince: String
+|} {"example": "{\\\"ID\\\":\\\"12\\\",\\\"firstName\\\":\\\"Payal\\\",\\\"lastName\\\":\\\"Jain\\\",\\\"address\\\":\\\"Koala Boulevard 314\\\",\\\"city\\\":\\\"San Diego\\\",\\\"country\\\":\\\"USA\\\",\\\"email\\\":\\\"mike@hotmail.com\\\",\\\"postalCode\\\":\\\"1345\\\",\\\"stateOrProvince\\\":\\\"CA\\\"}"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="customer_output" format="json">
+      <types:shape format="weave" example="examples/project1_customer_output"><![CDATA[%dw 2.0
+
+type customer_output = {|
+  customerData: Array<{|    CustomerID: String,     firstName: String,     lastName: String,     address: String,     city: String,     country: String,     email: String,     postalCode: String,     stateOrProvince: String  |}>
+|} {"example": "{\\\"customerData\\\":[{\\\"CustomerID\\\":\\\"12\\\",\\\"firstName\\\":\\\"Payal\\\",\\\"lastName\\\":\\\"Jain\\\",\\\"address\\\":\\\"Koala Boulevard 314\\\",\\\"city\\\":\\\"San Diego\\\",\\\"country\\\":\\\"USA\\\",\\\"email\\\":\\\"mike@hotmail.com\\\",\\\"postalCode\\\":\\\"1345\\\",\\\"stateOrProvince\\\":\\\"CA\\\"}]}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#3a3f2210-7346-489c-b82c-48260d8f7562">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="customer_input"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="customer_output"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
